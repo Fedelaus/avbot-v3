@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/drph4nt0m/avbot-v3/issues"
   },
-  "homepage": "https://github.com/drph4nt0m/avbot-v3#readme"
+  "homepage": "https://github.com/drph4nt0m/avbot-v3#readme",
+  "dependencies": {
+    "discord.js": "^12.3.1"
+  }
 }
