@@ -1,28 +1,32 @@
 const services = require('../config/services');
 
-const Discord = require('discord.js');
+const path = require('path');
+const {
+	CommandoClient,
+} = require('discord.js-commando');
 
+const client = new CommandoClient({
+	commandPrefix: '!',
+	owner: services.discord.owners,
+	invite: services.discord.supportServerInvite,
+	nonCommandEditable: true,
+});
 
-const client = new Discord.Client();
-
-const prefix = '!';
-
+client.registry
+	.registerDefaultTypes()
+	.registerGroups([
+		['util', 'Utility commands'],
+		['weather', 'Weather commands'],
+		['ivao', 'IVAO commands'],
+		['vatsim', 'Vatsim commands'],
+	])
+	.registerCommandsIn(path.join(__dirname, 'commands'));
 
 client.once('ready', () => {
-	console.log('Ready!');
+	console.log(`Logged in as ${client.user.tag}! (${client.user.id})`);
+	client.user.setActivity('with Commando');
 });
 
-client.on('message', (message) => {
-	if (!message.content.startsWith(prefix) || message.author.bot) return;
-
-	const args = message.content.slice(prefix.length).trim().split(/ +/);
-	const command = args.shift().toLowerCase();
-
-	if (command === 'stats') {
-		return client.shard.fetchClientValues('guilds.cache.size').then(results => {
-			return message.channel.send(`Server count: ${results.reduce((acc, guildCount) => acc + guildCount, 0)}`);
-		}).catch(console.error);
-	}
-});
+client.on('error', console.error);
 
 client.login(services.discord.token);
