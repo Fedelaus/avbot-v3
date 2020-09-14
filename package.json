@@ -7,7 +7,8 @@
   "main": "src/app/index",
   "scripts": {
     "dev": "nodemon main",
-    "start": "node main"
+    "start": "node main",
+    "lint": "eslint ./src/**/*.{js} --fix"
   },
   "repository": {
     "type": "git",
@@ -18,13 +19,24 @@
   },
   "homepage": "https://github.com/drph4nt0m/avbot-v3#readme",
   "dependencies": {
+    "@discordjs/opus": "^0.3.2",
+    "axios": "^0.20.0",
+    "common-tags": "^1.8.0",
     "dayjs": "^1.8.35",
     "discord.js": "^12.3.1",
     "discord.js-commando": "github:discordjs/Commando",
-    "dotenv": "^8.2.0"
+    "dotenv": "^8.2.0",
+    "ffmpeg-static": "^4.2.7",
+    "gtts": "^0.2.1"
   },
   "devDependencies": {
-    "eslint": "^7.8.1",
-    "nodemon": "^2.0.4"
+    "babel-eslint": "^10.1.0",
+    "eslint": "^7.9.0",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "nodemon": "^2.0.4",
+    "prettier": "^2.1.1"
   }
 }
