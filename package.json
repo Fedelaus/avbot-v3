@@ -4,10 +4,9 @@
   "description": "AvBot v3",
   "author": "Rahul Singh <dr@ph4nt0m.me>",
   "license": "MIT",
-  "main": "src/app/index",
   "scripts": {
-    "dev": "nodemon main",
-    "start": "node main",
+    "dev": "nodemon ./src/app/index.js",
+    "start": "node ./src/app/index.js",
     "lint": "eslint ./src/**/*.{js} --fix"
   },
   "repository": {
