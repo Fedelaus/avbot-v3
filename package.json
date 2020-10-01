@@ -21,7 +21,7 @@
     "@discordjs/opus": "^0.3.2",
     "axios": "^0.20.0",
     "common-tags": "^1.8.0",
-    "dayjs": "^1.8.36",
+    "dayjs": "^1.9.1",
     "discord.js": "^12.3.1",
     "discord.js-commando": "github:discordjs/Commando",
     "dotenv": "^8.2.0",
