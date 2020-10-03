@@ -22,14 +22,14 @@ module.exports = class TafCommand extends Command {
   }
 
   async run(msg, { icao }) {
-    const metarEmbed = new Discord.MessageEmbed()
+    const tafEmbed = new Discord.MessageEmbed()
       .setTitle(`TAF for ${icao.toUpperCase()}`)
       .setTimestamp();
 
     try {
       const { raw, readable } = await Avwx.getTaf(icao);
 
-      metarEmbed.setColor('#0099ff').addFields(
+      tafEmbed.setColor('#0099ff').addFields(
         {
           name: 'Raw Report',
           value: raw,
@@ -40,9 +40,9 @@ module.exports = class TafCommand extends Command {
         }
       );
     } catch (error) {
-      metarEmbed.setColor('#ff0000').setDescription(`${msg.author}, ${error}`);
+      tafEmbed.setColor('#ff0000').setDescription(`${msg.author}, ${error}`);
     }
 
-    return msg.embed(metarEmbed);
+    return msg.embed(tafEmbed);
   }
 };
