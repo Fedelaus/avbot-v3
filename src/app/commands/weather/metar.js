@@ -21,7 +21,7 @@ module.exports = class MetarCommand extends Command {
     });
   }
 
-  static async run(msg, { icao }) {
+  async run(msg, { icao }) {
     const metarEmbed = new Discord.MessageEmbed()
       .setTitle(`METAR for ${icao.toUpperCase()}`)
       .setTimestamp();

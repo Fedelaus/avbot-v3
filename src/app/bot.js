@@ -16,6 +16,7 @@ client.registry
     ['weather', 'Weather commands'],
     ['ivao', 'IVAO commands'],
     ['vatsim', 'Vatsim commands'],
+    ['misc', 'Miscellaneous commands']
   ])
   .registerCommandsIn(path.join(__dirname, 'commands'));
 

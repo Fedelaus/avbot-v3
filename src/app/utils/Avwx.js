@@ -15,6 +15,18 @@ module.exports = class Avwx {
     },
   });
 
+  static async getStationInfo(icao) {
+    try {
+      const response = await this.api.get(`/station/${icao}`);
+      if (response.status !== 200)
+        return new Error('Cannot find ICAO station.');
+      return response.data;
+    } catch (ex) {
+      console.error(ex);
+      return new Error('Internal Server Error');
+    }
+  }
+
   static async getMetar(icao) {
     return new Promise(async (resolve, reject) => {
       try {
