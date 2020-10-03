@@ -1,5 +1,6 @@
 const dayjs = require('dayjs');
 const utc = require('dayjs/plugin/utc');
+var accents = require('remove-accents');
 const axios = require('axios').default;
 
 const services = require('../../config/services');
@@ -15,6 +16,31 @@ module.exports = class Avwx {
     },
   });
 
+  static async getStation(icao) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const response = await this.api.get(
+          `/station/${icao}`
+        );
+
+        if (response.status !== 200)
+          return reject(
+            new Error(`no station available at the moment near ${icao}`)
+          );
+        const station = response.data;
+
+        console.log(station);
+
+        return resolve({station});
+      } catch (error) {
+        return reject(
+          error.response.data.error ||
+          `no station available at the moment near ${icao}`
+        );
+      }
+    });
+  }
+
   static async getTaf(icao) {
     return new Promise(async (resolve, reject) => {
       try {
@@ -24,7 +50,7 @@ module.exports = class Avwx {
 
         if (response.status !== 200)
           return reject(
-            new Error('no station available at the moment near WIMK')
+            new Error(`no station available at the moment near ${icao}`)
           );
         const taf = response.data;
 
@@ -41,10 +67,10 @@ module.exports = class Avwx {
         if (taf.info.name || taf.info.city) {
           if (taf.info.name) {
             try {
-              station += `${decodeURIComponent(escape(taf.info.name))}`;
+              station += `${accents.remove(taf.info.name)}`;
               if (taf.info.city) {
                 try {
-                  station += `, ${decodeURIComponent(escape(taf.info.city))}`;
+                  station += `, ${accents.remove(taf.info.city)}`;
                 } catch (err) {
                   console.log(err);
                 }
@@ -52,7 +78,7 @@ module.exports = class Avwx {
             } catch (error) {
               if (taf.info.city) {
                 try {
-                  station += `${decodeURIComponent(escape(taf.info.city))}`;
+                  station += `${accents.remove(taf.info.city)}`;
                 } catch (err) {
                   console.log(err);
                 }
@@ -81,7 +107,7 @@ module.exports = class Avwx {
       } catch (error) {
         return reject(
           error.response.data.error ||
-          'no station available at the moment near WIMK'
+          `no station available at the moment near ${icao}`
         );
       }
     });
@@ -96,7 +122,7 @@ module.exports = class Avwx {
 
         if (response.status !== 200)
           return reject(
-            new Error('no station available at the moment near WIMK')
+            new Error(`no station available at the moment near ${icao}`)
           );
         const metar = response.data;
         let readable = '';
@@ -112,10 +138,10 @@ module.exports = class Avwx {
         if (metar.info.name || metar.info.city) {
           if (metar.info.name) {
             try {
-              station += `${decodeURIComponent(escape(metar.info.name))}`;
+              station += `${accents.remove(metar.info.name)}`;
               if (metar.info.city) {
                 try {
-                  station += `, ${decodeURIComponent(escape(metar.info.city))}`;
+                  station += `, ${accents.remove(metar.info.city)}`;
                 } catch (err) {
                   console.log(err);
                 }
@@ -123,7 +149,7 @@ module.exports = class Avwx {
             } catch (error) {
               if (metar.info.city) {
                 try {
-                  station += `${decodeURIComponent(escape(metar.info.city))}`;
+                  station += `${accents.remove(metar.info.city)}`;
                 } catch (err) {
                   console.log(err);
                 }
@@ -182,7 +208,7 @@ module.exports = class Avwx {
       } catch (error) {
         return reject(
           error.response.data.error ||
-          'no station available at the moment near WIMK'
+          `no station available at the moment near ${icao}`
         );
       }
     });

@@ -26,7 +26,8 @@
     "discord.js-commando": "github:discordjs/Commando",
     "dotenv": "^8.2.0",
     "ffmpeg-static": "^4.2.7",
-    "gtts": "^0.2.1"
+    "gtts": "^0.2.1",
+    "remove-accents": "^0.4.2"
   },
   "devDependencies": {
     "babel-eslint": "^10.1.0",
