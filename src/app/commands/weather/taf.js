@@ -2,19 +2,19 @@ const Discord = require('discord.js');
 const { Command } = require('discord.js-commando');
 const Avwx = require('../../utils/Avwx');
 
-module.exports = class MetarCommand extends Command {
+module.exports = class TafCommand extends Command {
   constructor(client) {
     super(client, {
-      name: 'metar',
+      name: 'taf',
       group: 'weather',
-      memberName: 'metar',
+      memberName: 'taf',
       aliases: [],
-      description: 'Gives you live METAR of the chosen airport.',
-      examples: ['metar <icao>'],
+      description: 'Gives you live TAF of the chosen airport.',
+      examples: ['taf <icao>'],
       args: [
         {
           key: 'icao',
-          prompt: 'What ICAO would you like the bot to give METAR for?',
+          prompt: 'What ICAO would you like the bot to give TAF for?',
           type: 'string',
         },
       ],
@@ -23,11 +23,11 @@ module.exports = class MetarCommand extends Command {
 
   async run(msg, { icao }) {
     const metarEmbed = new Discord.MessageEmbed()
-      .setTitle(`METAR for ${icao.toUpperCase()}`)
+      .setTitle(`TAF for ${icao.toUpperCase()}`)
       .setTimestamp();
 
     try {
-      const { raw, readable } = await Avwx.getMetar(icao);
+      const { raw, readable } = await Avwx.getTaf(icao);
 
       metarEmbed.setColor('#0099ff').addFields(
         {
