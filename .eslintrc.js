@@ -16,6 +16,7 @@ module.exports = {
     'no-async-promise-executor': 'warn',
     'consistent-return': 'warn',
     'new-cap': 'warn',
+    'class-methods-use-this': 'no',
     'max-len': [
       'warn',
       {

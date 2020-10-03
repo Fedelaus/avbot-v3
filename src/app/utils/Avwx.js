@@ -15,6 +15,78 @@ module.exports = class Avwx {
     },
   });
 
+  static async getTaf(icao) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const response = await this.api.get(
+          `/taf/${icao}?options=info,translate,speech`
+        );
+
+        if (response.status !== 200)
+          return reject(
+            new Error('no station available at the moment near WIMK')
+          );
+        const taf = response.data;
+
+        let readable = '';
+        readable += '**Station : ** ';
+
+        if (taf.info.icao) {
+          readable += `${taf.info.icao}`;
+        } else {
+          readable += `${taf.station}`;
+        }
+
+        let station = '';
+        if (taf.info.name || taf.info.city) {
+          if (taf.info.name) {
+            try {
+              station += `${decodeURIComponent(escape(taf.info.name))}`;
+              if (taf.info.city) {
+                try {
+                  station += `, ${decodeURIComponent(escape(taf.info.city))}`;
+                } catch (err) {
+                  console.log(err);
+                }
+              }
+            } catch (error) {
+              if (taf.info.city) {
+                try {
+                  station += `${decodeURIComponent(escape(taf.info.city))}`;
+                } catch (err) {
+                  console.log(err);
+                }
+              }
+            }
+          }
+        }
+
+        if (station) {
+          readable += ` (${station})`;
+        }
+
+        readable += '\n';
+
+        readable += `**Observed at : ** ${dayjs
+          .utc(taf.time.dt)
+          .format('YYYY-MM-DD HH:mm:ss [Z]')} \n`;
+
+        readable += `**Report : ** ${taf.speech}`;
+
+        return resolve({
+          raw: taf.raw,
+          readable,
+          speech: taf.speech
+        });
+      } catch (error) {
+        return reject(
+          error.response.data.error ||
+          'no station available at the moment near WIMK'
+        );
+      }
+    });
+  }
+
   static async getMetar(icao) {
     return new Promise(async (resolve, reject) => {
       try {
@@ -102,11 +174,15 @@ module.exports = class Avwx {
           readable += `**Flight Rules : ** ${metar.flight_rules}`;
         }
 
-        return resolve({ raw: metar.raw, readable, speech: metar.speech });
+        return resolve({
+          raw: metar.raw,
+          readable,
+          speech: metar.speech
+        });
       } catch (error) {
         return reject(
           error.response.data.error ||
-            'no station available at the moment near WIMK'
+          'no station available at the moment near WIMK'
         );
       }
     });

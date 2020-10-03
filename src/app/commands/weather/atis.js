@@ -21,7 +21,7 @@ module.exports = class AtisCommand extends Command {
     });
   }
 
-  static async run(msg, { icao }) {
+  async run(msg, { icao }) {
     const atisEmbed = new Discord.MessageEmbed()
       .setTitle(`ATIS for ${icao.toUpperCase()}`)
       .setTimestamp();
