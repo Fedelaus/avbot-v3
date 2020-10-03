@@ -8,7 +8,7 @@ dayjs.extend(utc);
 
 module.exports = class Avwx {
   static api = axios.create({
-    baseURL : 'https://avwx.rest/api/',
+    baseURL: 'https://avwx.rest/api/',
     timeout: 10000,
     headers: {
       Authorization: services.avwx.token,
@@ -30,12 +30,14 @@ module.exports = class Avwx {
   static async getMetar(icao) {
     return new Promise(async (resolve, reject) => {
       try {
-        const response =
-            await this.api.get(`/metar/${icao}?options=info,translate,speech`);
+        const response = await this.api.get(
+          `/metar/${icao}?options=info,translate,speech`
+        );
 
         if (response.status !== 200)
           return reject(
-              new Error('no station available at the moment near WIMK'));
+            new Error('no station available at the moment near WIMK')
+          );
         const metar = response.data;
         let readable = '';
         readable += '**Station : ** ';
@@ -76,8 +78,9 @@ module.exports = class Avwx {
 
         readable += '\n';
 
-        readable += `**Observed at : ** ${
-            dayjs.utc(metar.time.dt).format('YYYY-MM-DD HH:mm:ss [Z]')} \n`;
+        readable += `**Observed at : ** ${dayjs
+          .utc(metar.time.dt)
+          .format('YYYY-MM-DD HH:mm:ss [Z]')} \n`;
 
         if (metar.translate.wind) {
           readable += `**Wind : ** ${metar.translate.wind} \n`;
@@ -111,10 +114,12 @@ module.exports = class Avwx {
           readable += `**Flight Rules : ** ${metar.flight_rules}`;
         }
 
-        return resolve({raw : metar.raw, readable, speech : metar.speech});
+        return resolve({ raw: metar.raw, readable, speech: metar.speech });
       } catch (error) {
-        return reject(error.response.data.error ||
-                      'no station available at the moment near WIMK');
+        return reject(
+          error.response.data.error ||
+            'no station available at the moment near WIMK'
+        );
       }
     });
   }
