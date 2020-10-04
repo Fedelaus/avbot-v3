@@ -66,6 +66,7 @@ module.exports = class HelpCommand extends Command {
           .setTitle('AvBot to the rescue!')
           .setURL('https://avbot.in')
           .setThumbnail('https://charts.avbot.in/assets/avbot.png')
+          .setFooter(this.client.user.username)
           .setTimestamp()
           .addFields(fields);
         return msg.embed(helpEmbed);
@@ -99,6 +100,7 @@ module.exports = class HelpCommand extends Command {
       .setTitle('AvBot to the rescue!')
       .setURL('https://avbot.in')
       .setThumbnail('https://charts.avbot.in/assets/avbot.png')
+      .setFooter(this.client.user.username)
       .setTimestamp()
       .addFields(fields);
 

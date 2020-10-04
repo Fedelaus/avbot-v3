@@ -42,12 +42,14 @@ module.exports = class AtisVoiceCommand extends Command {
 
       const atisEmbed = new Discord.MessageEmbed()
         .setTitle(`ATIS for ${icao.toUpperCase()}`)
+        .setColor('#0099ff')
+        .setFooter(this.client.user.username)
         .setTimestamp();
 
       try {
         const { speech } = await Avwx.getMetar(icao);
 
-        atisEmbed.setColor('#0099ff').setDescription(speech);
+        atisEmbed.setDescription(speech);
 
         const gtts = new gTTS(speech, 'en-uk');
         gtts.save(`tmp/${msg.member.voice.channel.id}_${icao}.mp3`);

@@ -16,7 +16,7 @@ module.exports = class IcaoCommand extends Command {
       examples: ['icao <icao>'],
       args: [{
         key: 'icao',
-        prompt: 'What ICAO would you like the bot to give ICAO for?',
+        prompt: 'What ICAO would you like the bot to give Station for?',
         type: 'string',
       }, ],
     });
@@ -27,6 +27,8 @@ module.exports = class IcaoCommand extends Command {
   }) {
     const stationEmbed = new Discord.MessageEmbed()
       .setTitle(`Station for ${icao.toUpperCase()}`)
+      .setColor('#0099ff')
+      .setFooter(this.client.user.username)
       .setTimestamp();
 
     try {
@@ -34,7 +36,7 @@ module.exports = class IcaoCommand extends Command {
         station
       } = await Avwx.getStation(icao);
 
-      stationEmbed.setColor('#0099ff').addFields({
+      stationEmbed.addFields({
         name: 'ICAO',
         value: station.icao || 'Unknown',
         inline: true,
