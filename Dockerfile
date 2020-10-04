@@ -4,6 +4,7 @@ WORKDIR /usr/src/app
 
 # Copy package(-lock).json
 COPY package*.json /usr/src/app/
+copy .env /usr/src/app
 
 RUN apt -y update
 RUN apt install -y git vim ffmpeg sox screen
