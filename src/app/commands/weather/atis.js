@@ -24,12 +24,14 @@ module.exports = class AtisCommand extends Command {
   async run(msg, { icao }) {
     const atisEmbed = new Discord.MessageEmbed()
       .setTitle(`ATIS for ${icao.toUpperCase()}`)
+      .setColor('#0099ff')
+      .setFooter(this.client.user.username)
       .setTimestamp();
 
     try {
       const { speech } = await Avwx.getMetar(icao);
 
-      atisEmbed.setColor('#0099ff').setDescription(speech);
+      atisEmbed.setDescription(speech);
     } catch (error) {
       atisEmbed.setColor('#ff0000').setDescription(`${msg.author}, ${error}`);
     }

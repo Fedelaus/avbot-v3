@@ -29,8 +29,6 @@ module.exports = class Avwx {
           );
         const station = response.data;
 
-        console.log(station);
-
         return resolve({station});
       } catch (error) {
         return reject(

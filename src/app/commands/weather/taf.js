@@ -24,12 +24,14 @@ module.exports = class TafCommand extends Command {
   async run(msg, { icao }) {
     const tafEmbed = new Discord.MessageEmbed()
       .setTitle(`TAF for ${icao.toUpperCase()}`)
+      .setColor('#0099ff')
+      .setFooter(this.client.user.username)
       .setTimestamp();
 
     try {
       const { raw, readable } = await Avwx.getTaf(icao);
 
-      tafEmbed.setColor('#0099ff').addFields(
+      tafEmbed.addFields(
         {
           name: 'Raw Report',
           value: raw,

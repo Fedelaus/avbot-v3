@@ -23,6 +23,7 @@ module.exports = class StatCommand extends Command {
       .setTitle('AvBot Stats!')
       .setURL('https://avbot.in')
       .setThumbnail('https://charts.avbot.in/assets/avbot.png')
+      .setFooter(this.client.user.username)
       .setTimestamp()
       .addFields(
         {
