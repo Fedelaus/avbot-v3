@@ -1,5 +1,4 @@
 .devcontainer
-.env*
 .dockerignore
 npm-debug.log
 Dockerfile
