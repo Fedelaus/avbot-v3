@@ -104,6 +104,11 @@ module.exports = class Avwx {
   }
 
   static async download() {
+
+    if (this.ivao.general.UPDATE && this.formatDate(this.ivao.general.UPDATE).add(4, 'minute').isAfter(dayjs())) {
+      return;
+    }
+
     const {
       data
     } = await this.api.get(null);
@@ -191,9 +196,7 @@ module.exports = class Avwx {
   static async getClientInfo(callSign) {
     return new Promise(async (resolve, reject) => {
       try {
-        if (!this.ivao.general.UPDATE || this.formatDate(this.ivao.general.UPDATE).add(4, 'minute').isBefore(dayjs())) {
-          await this.download();
-        }
+        await this.download();
 
         if (this.ivao.clients[callSign]) {
           return resolve({
@@ -212,4 +215,35 @@ module.exports = class Avwx {
       }
     });
   }
+
+    static async getPartialAtcClientInfo(partialCallSign) {
+      return new Promise(async (resolve, reject) => {
+        try {
+          await this.download();
+
+          const atcList = [];
+
+          Object.keys(this.ivao.clients).forEach(callSign => {
+            if (this.ivao.clients[callSign].clientType === 'ATC' && callSign.match(partialCallSign)) {
+              atcList.push(this.ivao.clients[callSign]);
+            }
+          })
+
+          if (atcList.length > 0) {
+            return resolve({
+              atcList
+            });
+          } else {
+            return reject(
+              `no client available at the moment matching call sign ${partialCallSign}`
+            );
+          }
+        } catch (error) {
+          return reject(
+            error.response ||
+            `no client available at the moment matching call sign ${partialCallSign}`
+          );
+        }
+      });
+    }
 }
