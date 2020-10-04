@@ -9,7 +9,7 @@ module.exports = class IvaoCommand extends Command {
   constructor(client) {
     super(client, {
       name: 'ivao',
-      group: 'misc',
+      group: 'ivao',
       memberName: 'ivao',
       aliases: [],
       description: 'Gives you live info about call-sign on the IVAO network.',
